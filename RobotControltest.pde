@@ -93,3 +93,8 @@ void mover() {
   
   robot.speedl(new Speed(vel.x, vel.y), 0.01);
 }
+
+void testFunction() {
+ String msg = "this is only a test";
+ println(msg);
+}
