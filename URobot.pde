@@ -14,8 +14,8 @@ class URobot {
 
     client = new Client(parent, robotIP, robotPort);
     homePosition = new JointPose(0, -PI/2, 0, -PI/2, 0, 0);
-    msg = ByteBuffer.allocate(679);
-    set_tcp(new Pose(0, 0, 0.135, 0, 0, 0));
+    msg = ByteBuffer.allocate(682);
+    set_tcp(new Pose(0, 0, 0, 0, 0, 0));
     //currentPose = client.available() > 0? getCurrentPose() : new Pose();
   }
   
@@ -84,18 +84,18 @@ class URobot {
   int packageCount = 0;
   public void test() {
     if (client.available() > 0) {
-      //println(client.readBytes().length, count);
+      
       switch(packageCount) {
       case 0:
         updateBuffer();
         getVersionMessage();
-        break;
-      case 2:
+        break;      
+      default:
         updateBuffer();
+        println(msg.getInt());
+        println(MessageType.get(msg.get()));
         getLoopMessage();
         packageCount = 1;
-        break;
-      default:
         break;
       }
       packageCount++;
@@ -109,9 +109,9 @@ class URobot {
 
   public void getLoopMessage() { 
     robotModeData = new RobotModeData(msg);
-    //robotModeData.printRobotData();
+    robotModeData.printRobotData();
     
-    
+    /*
     println("---- ROBOT DATA ----");
     getCurrentPose();
     
@@ -121,7 +121,7 @@ class URobot {
     println("Z: " + currentPose.z);
     println("RX: " + currentPose.rx);
     println("RY: " + currentPose.ry);
-    println("RZ: " + currentPose.rz); 
+    println("RZ: " + currentPose.rz); */
     //updateBuffer();
     
      /* int count = 5; 
@@ -137,10 +137,8 @@ class URobot {
      }*/
   }
   
-  void updateBuffer() {
-   if(client.available() > 0) {
-     msg = ByteBuffer.allocate(679);      
-     msg.put(client.readBytes(679));   
-   }
+  void updateBuffer() {  
+    byte[] m = client.readBytes();
+     msg = ByteBuffer.wrap(m);  
   }
 }

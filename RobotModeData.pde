@@ -17,23 +17,22 @@ class RobotModeData {
  double targetSpeedFractionLimit;
   
   RobotModeData(ByteBuffer message) {
-    msg = message;
-    int count = 5;
-    packageSize = msg.getInt(count); count += Integer.BYTES;
-    packageType = msg.get(count); count++;
-    timeStamp = msg.getLong(count); count += Long.BYTES; 
-    isRealRobotConnected = boolean(msg.get(count)); count++;
-    isRealRobotEnabled = boolean(msg.get(count)); count++;
-    isRobotPowerOn = boolean(msg.get(count)); count++;
-    isEmergencyStopped = boolean(msg.get(count)); count++;
-    isProtectiveStopped = boolean(msg.get(count)); count++;
-    isProgramRunning = boolean(msg.get(count)); count++;
-    isProgramPaused = boolean(msg.get(count)); count++;
-    robotMode = RobotMode.get(msg.get(count)); count++;
-    controlMode = ControlMode.get(msg.get(count)); count++;
-    targetSpeedFraction = msg.getDouble(count); count += Double.BYTES;
-    speedScaling = msg.getDouble(count); count += Double.BYTES;
-    targetSpeedFractionLimit = msg.getDouble(count); count += Double.BYTES;
+    msg = message;    
+    packageSize = msg.getInt();
+    packageType = msg.get();
+    timeStamp = msg.getLong(); 
+    isRealRobotConnected = boolean(msg.get());
+    isRealRobotEnabled = boolean(msg.get());
+    isRobotPowerOn = boolean(msg.get());
+    isEmergencyStopped = boolean(msg.get());
+    isProtectiveStopped = boolean(msg.get());
+    isProgramRunning = boolean(msg.get());
+    isProgramPaused = boolean(msg.get());
+    robotMode = RobotMode.get(msg.get());
+    controlMode = ControlMode.get(msg.get());
+    targetSpeedFraction = msg.getDouble();
+    speedScaling = msg.getDouble();
+    targetSpeedFractionLimit = msg.getDouble();
   }
   
   void printRobotData() {

@@ -14,25 +14,24 @@ class VersionMessage {
   String buildDate;
 
   VersionMessage(ByteBuffer message) { 
-    msg = message;
-    int count = 0;
-    messageSize = msg.getInt(count); count += Integer.BYTES;
-    messageType = MessageType.get(msg.get(count)); count ++;
-    timeStamp = msg.getLong(count); count += Long.BYTES;
-    source = MessageSource.get(msg.get(count)); count++;
-    robotMessageType = msg.get(count); count ++;
-    projectNameSize = msg.get(count); count ++;
+    msg = message;    
+    messageSize = msg.getInt();
+    messageType = MessageType.get(msg.get());
+    timeStamp = msg.getLong(); 
+    source = MessageSource.get(msg.get()); 
+    robotMessageType = msg.get(); 
+    projectNameSize = msg.get(); 
     projectName = ""; 
-    for (int i = 0; i < projectNameSize; i++, count++) {
-      projectName += (char)msg.get(count);
+    for (int i = 0; i < projectNameSize; i++) {
+      projectName += (char)msg.get();
     }
-    majorVersion = msg.get(count); count ++;
-    minorVersion = msg.get(count); count ++;
-    bugFixVersion = msg.getInt(count); count += Integer.BYTES;   
-    buildNumber = msg.getInt(count); count += Integer.BYTES;
-    buildDate = "";
-    for (int i = 0, j = messageSize - count; i < j; i++, count++) {
-      buildDate += (char)msg.get(count);
+    majorVersion = msg.get(); 
+    minorVersion = msg.get();
+    bugFixVersion = msg.getInt();
+    buildNumber = msg.getInt();
+    buildDate = "";     
+    for (int i = msg.position(); i < messageSize; i++) {
+      buildDate += (char)msg.get();
     }
   }
   
